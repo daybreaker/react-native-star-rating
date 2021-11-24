@@ -21,6 +21,7 @@ const ANIMATION_TYPES = [
 ];
 
 const propTypes = {
+  accessibilityLabel: PropTypes.string,
   activeOpacity: PropTypes.number,
   animation: PropTypes.oneOf(ANIMATION_TYPES),
   buttonStyle: ViewPropTypes.style,
@@ -54,9 +55,11 @@ const propTypes = {
   starSize: PropTypes.number,
   starStyle: ViewPropTypes.style,
   selectedStar: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 const defaultProps = {
+  accessibilityLabel: 'Star Rating',
   activeOpacity: 0.2,
   animation: undefined,
   buttonStyle: {},
@@ -77,6 +80,7 @@ const defaultProps = {
   starSize: 40,
   starStyle: {},
   selectedStar: () => {},
+  testID: undefined
 };
 
 class StarRating extends Component {
@@ -95,6 +99,7 @@ class StarRating extends Component {
 
   render() {
     const {
+      accessibilityLabel,
       activeOpacity,
       animation,
       buttonStyle,
@@ -114,6 +119,7 @@ class StarRating extends Component {
       reversed,
       starSize,
       starStyle,
+      testID
     } = this.props;
 
     const newContainerStyle = {
@@ -141,6 +147,7 @@ class StarRating extends Component {
           finalStarColor = fullStarColor;
         }
       }
+      const ratingVal = i + 1;
 
       const starButtonElement = (
         <AnimatableView
@@ -148,6 +155,7 @@ class StarRating extends Component {
           ref={(node) => { this.starRef.push(node); }}
         >
           <StarButton
+            accessibilityLabel={`${accessibilityLabel} ${ratingVal}`}
             activeOpacity={activeOpacity}
             buttonStyle={buttonStyle}
             disabled={disabled}
@@ -162,12 +170,13 @@ class StarRating extends Component {
               }
               this.onStarButtonPress(event);
             }}
-            rating={i + 1}
+            rating={ratingVal}
             reversed={reversed}
             starColor={finalStarColor}
             starIconName={starIconName}
             starSize={starSize}
             starStyle={starStyle}
+            testID={`${testID}-${ratingVal}`}
           />
         </AnimatableView>
       );
@@ -177,7 +186,7 @@ class StarRating extends Component {
     }
 
     return (
-      <View style={newContainerStyle} pointerEvents={disabled ? 'none' : 'auto'}>
+      <View style={newContainerStyle} pointerEvents={disabled ? 'none' : 'auto'} testID={testID}>
         {starButtons}
       </View>
     );
