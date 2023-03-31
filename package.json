@@ -36,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "deprecated-react-native-prop-types": "^4.0.0",
     "prop-types": "^15.5.10",
     "react-native-animatable": "^1.2.4",
     "react-native-button": "^2.3.0",
